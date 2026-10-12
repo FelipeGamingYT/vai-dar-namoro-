@@ -1,0 +1,160 @@
+/* CSS Reset & Base Layout */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent horizontal bouncing on mobile iOS */
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-family-body);
+  color: var(--text-main);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+  /* Safe area insets for iPhone notches and mobile browser chrome */
+  padding: max(16px, env(safe-area-inset-top, 16px)) max(14px, env(safe-area-inset-right, 14px)) max(20px, env(safe-area-inset-bottom, 20px)) max(14px, env(safe-area-inset-left, 14px));
+  line-height: 1.5;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Background Ambient Lighting */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: floatAmbient 12s infinite alternate ease-in-out;
+}
+
+.ambient-1 {
+  width: 380px;
+  height: 380px;
+  background: var(--bg-ambient-1);
+  top: -60px;
+  left: -80px;
+}
+
+.ambient-2 {
+  width: 440px;
+  height: 440px;
+  background: var(--bg-ambient-2);
+  bottom: -80px;
+  right: -80px;
+  animation-duration: 16s;
+  animation-delay: -3s;
+}
+
+.ambient-3 {
+  width: 300px;
+  height: 300px;
+  background: var(--bg-ambient-3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 10s;
+  animation-delay: -5s;
+}
+
+/* Canvas Elements */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* Main Container - Optimized for Desktop & Mobile */
+.app-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Top Action Bar (Mobile Responsive) */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.icon-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  touch-action: manipulation;
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: var(--primary);
+}
+
+.icon-btn:active {
+  transform: translateY(0) scale(0.92);
+}
+
+/* Mobile Small Screens */
+@media (max-width: 480px) {
+  body {
+    padding-top: max(12px, env(safe-area-inset-top, 12px));
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+  }
+  
+  .ambient-1 {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .ambient-2 {
+    width: 280px;
+    height: 280px;
+  }
+}

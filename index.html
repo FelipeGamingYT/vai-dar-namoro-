@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+  <meta name="theme-color" content="#ff3366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Um pedido de namoro especial, interativo e inesquecível feito com carinho.">
+  <title>Tenho uma pergunta muito especial pra você 💌</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Ambient Glowing Background Lighting -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="ambient-circle ambient-1"></div>
+    <div class="ambient-circle ambient-2"></div>
+    <div class="ambient-circle ambient-3"></div>
+  </div>
+
+  <!-- Background Heart Canvas -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Celebration Confetti Canvas -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Top Action Bar -->
+    <header class="top-nav">
+      <button id="btn-switch-view" class="btn btn-secondary" style="font-size: 0.88rem; padding: 8px 16px;">
+        👀 Ver Demonstração
+      </button>
+      <button id="btn-sound-toggle" class="icon-btn" title="Alternar som" aria-label="Alternar som">
+        🔊
+      </button>
+      <button id="btn-theme-toggle" class="icon-btn" title="Alternar tema" aria-label="Alternar tema">
+        🌙
+      </button>
+    </header>
+
+    <!-- VIEW 1: CREATOR FORM (PRIMEIRA TELA: CRIAR O MEU) -->
+    <section id="view-creator">
+      <div class="card fade-in">
+        <div class="card-badge">✨ Pedido Personalizado</div>
+        <div class="avatar-container">
+          <span class="avatar-emoji heartbeat">💌</span>
+          <div class="avatar-ring"></div>
+        </div>
+        <h1 class="card-title">Crie Seu Pedido</h1>
+        <p class="card-desc">Personalize uma mensagem única, gere o link exclusivo e envie para quem faz seu coração bater mais forte.</p>
+
+        <form id="form-creator">
+          <div class="form-group">
+            <label for="input-para" class="form-label">Nome de quem vai receber</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👑</span>
+              <input type="text" id="input-para" class="form-input" placeholder="Ex: Amor da minha vida" maxlength="40" required autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="input-de" class="form-label">Seu nome <span class="optional">(opcional)</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">💖</span>
+              <input type="text" id="input-de" class="form-input" placeholder="Ex: Seu admirador secreto" maxlength="40" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="input-pergunta" class="form-label">A Grande Pergunta <span class="optional">(personalizável)</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">💍</span>
+              <input type="text" id="input-pergunta" class="form-input" placeholder="quer namorar comigo?" maxlength="50" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="input-msg" class="form-label">Mensagem Especial <span class="optional">(opcional)</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">✍️</span>
+              <input type="text" id="input-msg" class="form-input" placeholder="Ex: Você transforma os meus dias em poesia..." maxlength="140" autocomplete="off">
+            </div>
+          </div>
+
+          <button type="submit" id="btn-gerar" class="btn btn-primary btn-block shimmer">
+            Gerar Link Apaixonante 💘
+          </button>
+        </form>
+
+        <!-- Share Result Box -->
+        <div id="share-box" class="share-box hidden">
+          <div class="share-link-wrapper">
+            <span id="share-link-text" class="share-link-text">https://...</span>
+          </div>
+          <div class="share-actions">
+            <button id="btn-copy" class="btn btn-secondary" style="font-size: 0.9rem; padding: 10px 14px;">
+              📋 Copiar
+            </button>
+            <button id="btn-whatsapp" class="btn btn-success" style="font-size: 0.9rem; padding: 10px 14px;">
+              💬 WhatsApp
+            </button>
+            <button id="btn-share-native" class="btn btn-primary hidden" style="font-size: 0.9rem; padding: 10px 14px;">
+              📲 Compartilhar
+            </button>
+            <button id="btn-qr" class="btn btn-secondary" style="font-size: 0.9rem; padding: 10px 14px;" title="Ver QR Code">
+              📱 QR Code
+            </button>
+          </div>
+          <button id="btn-preview" class="btn btn-secondary btn-block" style="font-size: 0.9rem; padding: 10px 14px; margin-top: 4px;">
+            👀 Ver como ela(e) vai ver →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: PROPOSAL VIEW (SIM OU NÃO) -->
+    <section id="view-proposal" class="hidden">
+      
+      <!-- Card: The Question -->
+      <div id="card-proposal" class="card fade-in">
+        <div class="avatar-container">
+          <span id="proposal-emoji" class="avatar-emoji heartbeat">🥺</span>
+          <div class="avatar-ring"></div>
+        </div>
+
+        <div class="card-subtitle">Uma surpresa para você</div>
+        <h1 id="proposal-title" class="card-title">Quer namorar comigo?</h1>
+        <p id="proposal-desc" class="card-desc">Eu tenho algo muito especial para te perguntar...</p>
+
+        <div id="proposal-btn-row" class="btn-row">
+          <button id="btn-sim" class="btn btn-primary shimmer">
+            Sim! 💖
+          </button>
+          <button id="btn-nao" class="btn btn-secondary">
+            Não
+          </button>
+        </div>
+      </div>
+
+      <!-- Card: Celebration (Shown when YES is clicked) -->
+      <div id="card-celebration" class="card hidden">
+        <div class="avatar-container">
+          <span class="avatar-emoji heartbeat">💍</span>
+          <div class="avatar-ring"></div>
+        </div>
+
+        <h1 id="celeb-title" class="card-title">ELA DISSE SIM! 🎉💍❤️</h1>
+        <div id="celeb-subtitle" class="card-subtitle">Juntos para sempre</div>
+        <p id="celeb-desc" class="card-desc">O melhor capítulo das nossas vidas começa agora!</p>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+          <button id="btn-notify-wa" class="btn btn-success btn-block shimmer">
+            Avisar no WhatsApp 💬✨
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- QR Code Modal -->
+  <div id="qr-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-content">
+      <h2 style="font-family: var(--font-family-display); font-size: 1.4rem; margin-bottom: 6px;">
+        QR Code do Pedido 📱
+      </h2>
+      <p id="qr-subtext" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">
+        Mostre ou envie esse QR Code para a pessoa escanear na câmera do celular!
+      </p>
+      <div class="qr-canvas-box">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+      <button id="btn-close-modal" class="btn btn-primary btn-block">
+        Fechar
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Application Scripts (Modular & Offline Compatible) -->
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/creator.js"></script>
+  <script src="js/proposal.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
